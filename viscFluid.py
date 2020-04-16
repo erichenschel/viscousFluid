@@ -22,7 +22,7 @@ class calc:
         self.vo = 5.0 #m/s -- initial velocity
         self.yo = 0.0 #m -- initial position
         self.to = 0.0 #s -- initial time
-        self.density = 1000 #kg/m3
+        self.density = 1000 #kg/m3 -- density of water
         self.mu = 8.9 * 10**(-4) #Pa s -- viscosity (water at 25 deg celsius)
         self.radius = 0.01 #m (1 cm) -- radius
     
@@ -49,10 +49,10 @@ class calc:
         return (6 * np.pi * self.mu * self.radius)
         #return (0.5) * self.density * """
 
-    # y'' = f(v) = acceleration
+    # y'' = f(v) = acceleration (changed return to addition from subtraction)
     def f(self, v):
         zo = self.b() * v / self.mass
-        return (-self.g - zo)
+        return (-self.g + zo)
 
     # y = velocity
     def euler_vel(self):
@@ -80,7 +80,27 @@ class calc:
             pos.append(yn)
         return pos
 
-    #def rk_Method(self):
+    def rk_vel(self):
+        time = [self.to]
+        vel = [self.vo]
+        for i in range(0, 50):
+            v = vel[i]
+            a = self.f(v+0.5*self.step*self.f(vel[i-1]))
+            vn = v + a * self.step
+            pos.append(yn)
+        return pos
+    
+    def rk_pos(self):
+        time = [self.to]
+        pos = [self.xo]
+        vel = [self.vo]
+        func = []
+        for i in range(0, 50):
+            v = vel[i]
+            f = self.f(v[i]+0.5*)
+            yn = y + f * self.step
+            pos.append(yn)
+        return pos
 
     # analytical equation for velocity
     def pos(self, t):
