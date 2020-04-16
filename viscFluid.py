@@ -24,43 +24,54 @@ class calc:
         self.radius = 0.01 #m (1 cm) -- radius
     
     # params:: r - radius, mu - viscosity
-    def b(r, mu):
+    def b(self, r, mu):
         return (6 * np.pi * self.mu * self.radius)
 
     # y'' = f(v) = acceleration
-    def f(v):
-        zo = self.b(self.r, self.mu) * v / self.mass
+    def f(self, v):
+        zo = self.b(self.radius, self.mu) * v / self.mass
         return (-self.g - zo)
 
     # y = velocity
     def euler_vel(self):
         time = []
         vel = [self.vo]
-        for i in range(0, 100):
+        for i in range(0, 50):
             v = vel[i]
             a = f(v)
             vn = v + a * self.step
             vel.append(vn)
             time.append(self.step*i)
 
-        return time, est
+        return time, vel
             
-    def euler_pos(self):
-        time = []
-        est = [self.vo]
-        for i in range(0, 100):
+    def euler_pos(self, v):
+        time = [0.0]
+        pos = [self.yo]
+        for i in range(0, 50):
+				y = pos[i]
+				f = v[i]
+				yn = 
 
-
-    def rkMethod(self):
+    #def rkMethod(self):
 
     # analytical equation for velocity
     def vel(t):
-        z1 = ((-5.0*self.mass/self.b) - (self.g*self.mass*self.mass/(self.b*self.b)))
-        e = np.exp(-self.b*t/self.mass)
-        z2 = 5.0*self.mass/self.b
-        z3 = self.g*self.mass*self.mass/(self.b*self.b)
-        z4 = -self.g*self.mass*t/self.b
-        return z1 * e + z2 + z3 + z4
+	velocity = []
+	for i in range(len(t)):
+		zo = -5.0 * self.mass / self.b(self.radius, self.mu)
+		z1 = -self.g * self.mass**2 / (self.b(self.radius, self.mu)**2)
+		e = np.exp(-self.b(self.radius, self.mu) * t / self.mass)
+		z2 = 5.0 * self.mass / self.b(self.radius, self.mu)
+		z3 = self.g * self.mass**2 / (self.b(self.radius, self.mu)**2)
+		z4 = -self.g * self.mass * t / self.b(self.radius, self.mu)
+		v =  (zo + z1) * e + z2 + z3 + z4
+		velocity.append(v)
 
 
+if __name__=="__main__":
 
+	C = calc()
+	v = C.euler_vel()[1]
+	for i in range(len(v)):
+		print(v[i])
